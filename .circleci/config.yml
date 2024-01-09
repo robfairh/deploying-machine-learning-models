@@ -76,6 +76,25 @@ jobs:
           command: |
             tox -e publish_model
 
+  section_08_upload_packages:
+    <<: *defaults
+    working_directory: ~/project/packages/regression_model
+    steps:
+      - checkout:
+          path: ~/project
+      - *prepare_tox
+      - run:
+          name: Fetch the data
+          command: |
+            tox -e fetch_data
+      - run:
+          name: Test the model
+          command: |
+            tox
+      - run:
+          name: Publish model to Gemfury
+          command: |
+            tox -e publish_model
 
   section_08_deploy_app_container_via_railway:
     <<: *defaults
@@ -279,7 +298,8 @@ workflows:
       # upload after git tags are created
       - section_07_test_and_upload_regression_model:
           <<: *tags_only
-
+      - section_08_upload_packages:
+          <<: *tags_only
       - section_08_deploy_app_container_via_railway:
          filters:
            branches:
