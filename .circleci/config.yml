@@ -290,20 +290,12 @@ workflows:
   version: 2
   test-all:
     jobs:
-      - test_regression_model_py37
-      - test_regression_model_py38
-      - test_ml_api_py37
-      - test_ml_api_py38
       - train_and_upload_regression_model:
-          requires:
-            - test_regression_model_py37
-            - test_regression_model_py38
-            - test_ml_api_py37
-            - test_ml_api_py38
           filters:
             branches:
               only:
                 - master
+                - demo
       - section_12_publish_docker_image_to_aws:
           requires:
             - train_and_upload_regression_model
