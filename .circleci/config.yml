@@ -236,6 +236,7 @@ jobs:
           name: Install requirements
           command: |
             . venv/bin/activate
+            pip install versioned-hdf5
             pip install -r packages/neural_network_model/requirements.txt
       - run:
           name: Fetch Training data - 2GB
