@@ -236,7 +236,7 @@ jobs:
           name: Install requirements
           command: |
             . venv/bin/activate
-            sudo apt-get install pkg-config libhdf5-100 libhdf5-dev
+            sudo apt-get install -y libhdf5-serial-dev
             pip install -r packages/neural_network_model/requirements.txt
       - run:
           name: Fetch Training data - 2GB
