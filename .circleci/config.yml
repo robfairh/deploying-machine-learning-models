@@ -54,7 +54,7 @@ jobs:
       - run:
           name: Deploy to Railway App (You must set RAILWAY_TOKEN env var)
           command: |
-            cd section-07-ci-and-publishing/house-prices-api && railway up --detach
+            cd section-07-ci-and-publishing/house-prices-api && railway up --detach --service 9784f604-16d2-473b-a975-83af054670e8
 
   section_07_test_and_upload_regression_model:
     <<: *defaults
@@ -92,7 +92,7 @@ jobs:
       - run:
           name: Build and run Dockerfile (see https://docs.railway.app/deploy/dockerfiles)
           command: |
-            cd section-08-deploying-with-containers && railway up --detach
+            cd section-08-deploying-with-containers && railway up --detach --service 9784f604-16d2-473b-a975-83af054670e8
 
   test_regression_model_py37:
     docker:
@@ -220,8 +220,8 @@ jobs:
       - run:
           name: Publishing docker image to aws ECR
           command: |
-            sudo pip install awscli
-            eval $(aws ecr get-login --no-include-email --region us-east-1)
+            pip install awscli
+            eval $(aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin https://058466039604.dkr.ecr.us-east-1.amazonaws.com)
             make build-ml-api-aws tag-ml-api push-ml-api-aws
             aws ecs update-service --cluster ml-api-cluster --service custom-service --task-definition  first-run-task-definition --force-new-deployment
 
@@ -263,29 +263,47 @@ tags_only: &tags_only
     tags:
       only: /^.*/
 
+# workflows:
+#   version: 2
+#   deploy_pipeline:
+#     jobs:
+#       - section_07_test_app
+#       - section_07_deploy_app_to_railway:
+#           requires:
+#             - section_07_test_app
+#           filters:
+#             branches:
+#               only:
+#                 - master
+#                 - demo
+#       upload after git tags are created
+#       - section_07_test_and_upload_regression_model:
+#           <<: *tags_only
+#       - section_08_deploy_app_container_via_railway:
+#          filters:
+#            branches:
+#              only:
+#                - master
+#                - demo
+
 workflows:
   version: 2
-  deploy_pipeline:
+  test-all:
     jobs:
-      - section_07_test_app
-      - section_07_deploy_app_to_railway:
-          requires:
-            - section_07_test_app
+      - train_and_upload_regression_model:
           filters:
             branches:
               only:
                 - master
                 - demo
-      # upload after git tags are created
-      - section_07_test_and_upload_regression_model:
-          <<: *tags_only
-
-      - section_08_deploy_app_container_via_railway:
-         filters:
-           branches:
-             only:
-               - master
-               - demo
+      - section_12_publish_docker_image_to_aws:
+          requires:
+            - train_and_upload_regression_model
+          filters:
+            branches:
+              only:
+                - master
+                - demo
 
 #  test-all:
 #    jobs:
