@@ -1,6 +1,7 @@
 import numpy as np
 import cv2
-from keras.utils import np_utils
+# from keras.utils import np_utils
+import tensorflow.keras.utils as utils
 from sklearn.preprocessing import LabelEncoder
 from sklearn.base import BaseEstimator, TransformerMixin
 
@@ -17,7 +18,7 @@ class TargetEncoder(BaseEstimator, TransformerMixin):
 
     def transform(self, X):
         X = X.copy()
-        X = np_utils.to_categorical(self.encoder.transform(X))
+        X = utils.to_categorical(self.encoder.transform(X))
         return X
 
 
