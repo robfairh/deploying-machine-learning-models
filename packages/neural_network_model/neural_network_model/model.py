@@ -44,7 +44,8 @@ def cnn_model(kernel_size=(3, 3),
 
     model.compile(Adam(lr=0.0001),
                   loss='binary_crossentropy',
-                  metrics=['accuracy'])
+                  metrics=['accuracy'],
+                  run_eagerly=True)
 
     return model
 
