@@ -1,7 +1,7 @@
 import numpy as np
 import cv2
-# from keras.utils import np_utils
-import tensorflow.keras.utils as utils
+from keras.utils import np_utils
+# import tensorflow.keras.utils as utils
 from sklearn.preprocessing import LabelEncoder
 from sklearn.base import BaseEstimator, TransformerMixin
 
