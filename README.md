@@ -7,7 +7,23 @@ For the documentation, visit the [course on Udemy](https://www.udemy.com/deploym
 
 # Section 4:
 
-section-04-research-and-development/titanic-assignment/
+Assignment in Section 4: section-04-research-and-development/titanic-assignment/
+
+* 01-predicting-survival-titanic-assignement.ipynb:
+It does the data cleaning, some data exploratory analysis, and then trains/tests a LogisticRegression model.
+
+* 03-titanic-survival-pipeline-assignment.ipynb:
+It does the data cleaning, separates data into train/test, creates a class called: ExtractLetterTransformer which is a pre-processor to add in the pipeline, creates pipeline:
+  * categorical imputation
+  * adds missing indicator to numerical variables
+  * imputes numerical variables
+  * extracts first letter from cabin
+  * places categories with low turn up into one category: 'Rare'
+  * encodes categorical variables into k-1 variables
+  * applies standardization
+  * trains logistic regression model
+Fits pipeline, outputs train and test performance metrics
+
 
 # Section 5:
 
