@@ -54,7 +54,7 @@ jobs:
       - run:
           name: Deploy to Railway App (You must set RAILWAY_TOKEN env var)
           command: |
-            cd section-07-ci-and-publishing/house-prices-api && railway up --detach --service SERVICE_ID
+            cd section-07-ci-and-publishing/house-prices-api && railway up --detach --service erect-locket
 
   section_07_test_and_upload_regression_model:
     <<: *defaults
@@ -309,7 +309,9 @@ workflows:
   version: 2
   test-all:
     jobs:
-      - section_13_train_and_upload_neural_network_model:
+      - section_07_test_app
+      - section_07_deploy_app_to_railway
+      - section_07_test_and_upload_regression_model:
           filters:
             branches:
               only:
@@ -363,7 +365,7 @@ workflows:
 #            - test_regression_model
 #            - test_ml_api
 #            - section_9_differential_tests
-#             - train_and_upload_regression_model
+#            - train_and_upload_regression_model
 #           filters:
 #             branches:
 #               only:
