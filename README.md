@@ -150,11 +150,12 @@ If we go to POST we can run predictions.
 *
 
 There is only one job in the CircleCI workflow: section_08_deploy_app_container_via_railway
+In this one, it deploys a docker container to railway.
 
 For this it requires to set the environment variables in CircleCI:
 PIP_EXTRA_INDEX_URL which is the same url as GEMFURY_PUSH_URL
-
-In this one, it deploys a docker container to railway.
+Because it is pulling the package from GEMFURY
+So, for this step to work, we need to have published the package to GEMFURY beforehand.
 
 The test passes in CI.
 It gets there up to the point of building the docker container.
