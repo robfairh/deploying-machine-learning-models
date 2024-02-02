@@ -150,20 +150,31 @@ If we go to POST we can run predictions.
 *
 
 There is only one job in the CircleCI workflow: section_08_deploy_app_container_via_railway
-In this one, it deploys a docker container to railway.
+In this one, it deploys a docker container via Railway.
 
-For this it requires to set the environment variables in CircleCI:
+For this it requires to set the environment variables in Railway.
+For that go to the service, then to variables, and add the variable:
 PIP_EXTRA_INDEX_URL which is the same url as GEMFURY_PUSH_URL
-Because it is pulling the package from GEMFURY
+Because it is pulling the package from GEMFURY.
 So, for this step to work, we need to have published the package to GEMFURY beforehand.
 
 The test passes in CI.
 It gets there up to the point of building the docker container.
 Now we need to see in railway, if it actually succeeded.
+And it succeeds!
 
+The way this is different from the previous section is that all the deployment happens inside the docker container.
+CircleCI just gets into the directory section-08-deploying-with-containers and does the railway up --detach --service SERVICE_NAME
+Railway sees the Dockerfile and builds the docker image and triggers docker to run.
+This is what is called a dockerized deployment.
 
 
 # Section 9:
+
+This section is on differential testing.
+Not so interesting.
+I think it is some sort of regression testing.
+
 
 # Section 10:
 
@@ -173,6 +184,23 @@ Because AWS has changed considerably and I couldn't follow the videos.
 
 # Section 11:
 
+This one doesn't work for some changes in the dependencies.
+
+
 # Section 12:
 
+Troubleshooting. Not so interesting.
+
+
 # Section 13:
+
+Similar to section 6, but it deploys the model as an API using Flask instead of FastAPI
+
+We need to set and environemnt variable:
+set FLASK_APP=run.py
+
+to run do: python run.py
+Once it is running there is a way to make predictions.
+I managed to create a file with those capabilities, but it seems like I have deleted it.
+
+packages/ml_api/post_request.py has an example, but it doesn't work for the reasons specified there
