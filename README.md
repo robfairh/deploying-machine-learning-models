@@ -82,7 +82,7 @@ https://railway.app/dashboard
 * in terminal, run: railway link
 * and select project, environment, and service
 * then, run: railway up --detach
-* I think the alternative would be to just run: railway up --detach --service <service_id>, but right now, I can't find the service_id.
+* I think the alternative would be to just run: railway up --detach --service <service_name>
 * In service, go to settings, under networking generate domain
 * this will produce a link in which we can access our API
 
@@ -106,20 +106,64 @@ RAILWAY_TOKEN:
 GEMFURY_PUSH_URL:
   - asd
 
+Link GEMFURY account to github: https://manage.fury.io/dashboard/robfairh
+GEMFURY is a private python package index server.
+Go to Tokens.
+For learning purposes we used a full access token.
+For deployment we would use both push tokens to upload things, and deploy tokens to read things.
+The GEMFURY_PUSH_URL is https://<TOKEN>:@pypi.fury.io/USERNAME/
+
+Another environment variable that we need to add to CircleCI:
+KAGGLE_USERNAME
+KAGGLE_KEY
+
+This are needed for the model to automatically dowload the data:
+Go to kaggle, to settings, create new API token.
+
+To get the RAILWAY_TOKEN:
+got to railway, select project, go to project settings, tokens: create token
+
 There are 3 steps in this section:
 - section_07_test_app: runs tests
 - section_07_deploy_app_to_railway: deploys api in railway
 - section_07_test_and_upload_regression_model: builds the package and publishes to GEMFURY
 
-GEMFURY
-
+All of these run.
 
 
 # Section 8:
 
+In this one, it seems like we are doing the same thing we did before, but in an instance of docker.
+There is only one job in the workflow: section_08_deploy_app_container_via_railway
+
+In this one it deploys a docker container to railway.
+The build process happens inside the docker container.
+
+*
+The following is not necessary, but helps to visualize the process:
+First we build the docker locally.
+For that we run:
+docker build --build-arg PIP_EXTRA_INDEX_URL=https://<TOKEN>:@pypi.fury.io/USERNAME/ -t house-prices-api:latest .
+then run: 'docker images' to see the built images
+To run locally: run -p 8001:8001 -e PORT=8001 house-prices-api
+If we go to http://localhost:8001/, we go to the API.
+If we go to POST we can run predictions.
+*
+
+The file responsible for deploying the docker container is: section-08-deploying-with-containers/Dockerfile
+And the 
+
+For this it requires to set the environment variables in CircleCI:
+PIP_EXTRA_INDEX_URL which is the same url as GEMFURY_PUSH_URL
+
+
 # Section 9:
 
 # Section 10:
+
+This one I couldn't do it.
+Because AWS has changed considerably and I couldn't follow the videos.
+
 
 # Section 11:
 

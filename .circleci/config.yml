@@ -92,7 +92,7 @@ jobs:
       - run:
           name: Build and run Dockerfile (see https://docs.railway.app/deploy/dockerfiles)
           command: |
-            cd section-08-deploying-with-containers && railway up --detach --service SERVICE_ID
+            cd section-08-deploying-with-containers && railway up --detach --service erect-locket
 
   test_regression_model_py37:
     docker:
@@ -263,6 +263,26 @@ tags_only: &tags_only
     tags:
       only: /^.*/
 
+
+## HERE IS WERE WE DEFINE WHAT TO RUN
+
+# ## This is for section seven, it works
+# workflows:
+#   version: 2
+#   test-all:
+#     jobs:
+#       - section_07_test_app
+#       - section_07_deploy_app_to_railway
+#       - section_07_test_and_upload_regression_model:
+#           filters:
+#             branches:
+#               only:
+#                 - master
+#                 - demo
+
+# # This was the original workflow from the course
+# # This trigers the building and uploading of the model
+# # to gemfury once a tag is created in github
 # workflows:
 #   version: 2
 #   deploy_pipeline:
@@ -276,15 +296,20 @@ tags_only: &tags_only
 #               only:
 #                 - master
 #                 - demo
-#       upload after git tags are created
+#       # upload after git tags are created
 #       - section_07_test_and_upload_regression_model:
 #           <<: *tags_only
-#       - section_08_deploy_app_container_via_railway:
-#          filters:
-#            branches:
-#              only:
-#                - master
-#                - demo
+
+workflows:
+  version: 2
+  deploy_pipeline:
+    jobs:
+      - section_08_deploy_app_container_via_railway:
+         filters:
+           branches:
+             only:
+               - master
+               - demo
 
 # workflows:
 #   version: 2
@@ -304,19 +329,6 @@ tags_only: &tags_only
 #               only:
 #                 - master
 #                 - demo
-
-workflows:
-  version: 2
-  test-all:
-    jobs:
-      - section_07_test_app
-      - section_07_deploy_app_to_railway
-      - section_07_test_and_upload_regression_model:
-          filters:
-            branches:
-              only:
-                - master
-                - demo
 
 #  test-all:
 #    jobs:
