@@ -134,10 +134,9 @@ All of these run.
 # Section 8:
 
 In this one, it seems like we are doing the same thing we did before, but in an instance of docker.
-There is only one job in the workflow: section_08_deploy_app_container_via_railway
 
-In this one it deploys a docker container to railway.
 The build process happens inside the docker container.
+The file responsible for building the docker container is: section-08-deploying-with-containers/Dockerfile
 
 *
 The following is not necessary, but helps to visualize the process:
@@ -150,11 +149,17 @@ If we go to http://localhost:8001/, we go to the API.
 If we go to POST we can run predictions.
 *
 
-The file responsible for deploying the docker container is: section-08-deploying-with-containers/Dockerfile
-And the 
+There is only one job in the CircleCI workflow: section_08_deploy_app_container_via_railway
 
 For this it requires to set the environment variables in CircleCI:
 PIP_EXTRA_INDEX_URL which is the same url as GEMFURY_PUSH_URL
+
+In this one, it deploys a docker container to railway.
+
+The test passes in CI.
+It gets there up to the point of building the docker container.
+Now we need to see in railway, if it actually succeeded.
+
 
 
 # Section 9:
